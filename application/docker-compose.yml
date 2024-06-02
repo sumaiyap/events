@@ -1,13 +1,13 @@
 services:
   frontend:
-    image: 905418023088.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+    image: sumaiyap/frontend:latest
     # build:
     #   context: "./frontend/events"
     #   dockerfile: "./Dockerfile"
     networks:
       - events_net
   backend:
-    image: 905418023088.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+    image: sumaiyap/backend:latest
     # build:
     #   context: "./backend"
     #   dockerfile: "./Dockerfile"

@@ -30,7 +30,11 @@ pipeline {
                             ls -al
                             echo "current working dir: `pwd`"
                             docker build -t frontend:latest .
-                            trivy image frontend:latest > frontend_report.txt
+                            def trivyOutput = sh(script: "trivy image $APP_NAME:latest", returnStdout: true).trim()
+
+                            // Display Trivy scan results
+                            println trivyOutput
+                        //    trivy image frontend:latest > frontend_report.txt
                             docker tag frontend:latest ${DOCKER_REGISTRY}/frontend:latest
                             docker push ${DOCKER_REGISTRY}/frontend:latest
                         '''
@@ -48,7 +52,11 @@ pipeline {
                             ls -al
                             echo "current working dir: `pwd`"
                             docker build -t backend:latest .
-                            trivy image backend:latest > backend_report.txt
+                            def trivyOutput = sh(script: "trivy image $APP_NAME:latest", returnStdout: true).trim()
+
+                            // Display Trivy scan results
+                            println trivyOutput
+                        //    trivy image backend:latest > backend_report.txt
                             docker tag backend:latest ${DOCKER_REGISTRY}/backend:latest
                             docker push ${DOCKER_REGISTRY}/backend:latest
                         '''
