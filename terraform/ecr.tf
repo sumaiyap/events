@@ -59,6 +59,15 @@ resource "aws_iam_instance_profile" "ecr_access_instance_profile" {
   role = aws_iam_role.ecr_access_role.name
 }
 
+resource "aws_iam_role_policy_attachment" "ec2_ssm_policy" {
+  role       = aws_iam_role.ecr_access_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_full_access" {
+  role       = aws_iam_role.ecr_access_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSLambda_FullAccess"
+}
 
 
 

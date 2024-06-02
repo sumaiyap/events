@@ -133,6 +133,11 @@ resource "aws_instance" "main" {
               curl -L "https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
               chmod +x /usr/local/bin/docker-compose
               sudo apt-get install -y awscli
+              cd /home/ubuntu
+              wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install
+              chmod +x ./install
+              ./install auto
+              service codedeploy-agent start
               EOF
 
   tags = {

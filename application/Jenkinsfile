@@ -58,6 +58,15 @@ pipeline {
                 }
             }
         }
+        stage('Invoke Lambda Function') {
+            steps {
+                script {
+                    def lambdaResponse = sh(script: 'aws lambda invoke --function-name "gitCloneAndDockerCompose" response.json', returnStdout: true)
+                    echo lambdaResponse
+                }
+            }
+        
+    }
 
 
     }
