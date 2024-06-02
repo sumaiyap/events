@@ -27,6 +27,13 @@ resource "aws_security_group" "allow_ssh" {
   }
 
   ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
@@ -78,8 +85,12 @@ resource "aws_instance" "ubuntu_with_docker" {
               usermod -aG docker ubuntu
               systemctl enable docker
               systemctl start docker
-              # Run Jenkins Docker container
-              docker run -d -p 8080:8080 -p 50000:50000 --name jenkins jenkins/jenkins:lts
+              sudo apt-get update -y
+              sudo apt install openjdk-11-jdk -y
+              curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+              echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+              sudo apt update -y
+              sudo apt install jenkins -y
               sudo apt-get install -y awscli
               EOF
 
