@@ -93,6 +93,12 @@ resource "aws_instance" "ubuntu_with_docker" {
               sudo apt install jenkins -y
               sudo apt-get install -y awscli
               sudo usermod -aG docker jenkins
+              sudo apt-get install wget apt-transport-https gnupg lsb-release
+              wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+              echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+              sudo apt-get update -y
+              sudo apt-get install trivy -y
+
               EOF
 
   tags = {

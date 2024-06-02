@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = "637423505011.dkr.ecr.us-east-1.amazonaws.com"
+        DOCKERHUB_CREDENTIALS_ID = 'docker'
+        DOCKER_REGISTRY = "sumaiyap"
         REPO_URL = "https://github.com/sumaiyap/events.git"
         AWS_REGION  = "us-east-1"
         ACCOUNT_ID = "905418023088"
@@ -10,14 +11,14 @@ pipeline {
     }
 
     stages {
-        stage('Login to ECR') {
-            steps {
+        stage('Login to Docker Hub') {
+          steps {
                 script {
-                    sh '''
-                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-                    '''
+                    withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+                    }
                 }
-            }
+            } 
         }
 
         stage('Build and Push frontend') {
@@ -29,6 +30,7 @@ pipeline {
                             ls -al
                             echo "current working dir: `pwd`"
                             docker build -t frontend:latest .
+                            trivy image frontend:latest > frontend_report.txt
                             docker tag frontend:latest ${DOCKER_REGISTRY}/frontend:latest
                             docker push ${DOCKER_REGISTRY}/frontend:latest
                         '''
@@ -46,6 +48,7 @@ pipeline {
                             ls -al
                             echo "current working dir: `pwd`"
                             docker build -t backend:latest .
+                            trivy image backend:latest > backend_report.txt
                             docker tag backend:latest ${DOCKER_REGISTRY}/backend:latest
                             docker push ${DOCKER_REGISTRY}/backend:latest
                         '''
