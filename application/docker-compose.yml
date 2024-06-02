@@ -1,13 +1,13 @@
 services:
   frontend:
-    image: 637423505011.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+    image: 905418023088.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
     # build:
     #   context: "./frontend/events"
     #   dockerfile: "./Dockerfile"
     networks:
       - events_net
   backend:
-    image: 637423505011.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+    image: 905418023088.dkr.ecr.us-east-1.amazonaws.com/backend:latest
     # build:
     #   context: "./backend"
     #   dockerfile: "./Dockerfile"

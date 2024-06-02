@@ -5,7 +5,7 @@ pipeline {
         DOCKER_REGISTRY = "637423505011.dkr.ecr.us-east-1.amazonaws.com"
         REPO_URL = "https://github.com/sumaiyap/events.git"
         AWS_REGION  = "us-east-1"
-        ACCOUNT_ID = "637423505011"
+        ACCOUNT_ID = "905418023088"
 
     }
 
@@ -23,11 +23,27 @@ pipeline {
         stage('Build and Push frontend') {
             steps {
                 script {
-                    dir('frontend') {
+                    dir('application/frontend') {
                         sh '''
-                            docker build -t frontend .
+                            id
+                            docker build -t frontend:latest .
                             docker tag frontend:latest ${DOCKER_REGISTRY}/frontend:latest
                             docker push ${DOCKER_REGISTRY}/frontend:latest
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Build and Push backend') {
+            steps {
+                script {
+                    dir('application/backend') {
+                        sh '''
+                            id
+                            docker build -t backend:latest .
+                            docker tag backend:latest ${DOCKER_REGISTRY}/backend:latest
+                            docker push ${DOCKER_REGISTRY}/backend:latest
                         '''
                     }
                 }
