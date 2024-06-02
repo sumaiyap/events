@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = "637423505011.dkr.ecr.us-east-1.amazonaws.com"
+        REPO_URL = "https://github.com/sumaiyap/events.git"
+        AWS_REGION  = "us-east-1"
+        ACCOUNT_ID = "637423505011"
+
+    }
+
+    stages {
+        stage('Login to ECR') {
+            steps {
+                script {
+                    sh '''
+                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+                    '''
+                }
+            }
+        }
+
+        stage('Build and Push frontend') {
+            steps {
+                script {
+                    dir('frontend') {
+                        sh '''
+                            docker build -t frontend .
+                            docker tag frontend:latest ${DOCKER_REGISTRY}/frontend:latest
+                            docker push ${DOCKER_REGISTRY}/frontend:latest
+                        '''
+                    }
+                }
+            }
+        }
+
+
+    }
+}
