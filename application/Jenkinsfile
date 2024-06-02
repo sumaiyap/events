@@ -5,7 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS_ID = 'docker'
         DOCKER_REGISTRY = "sumaiyap"
         REPO_URL = "https://github.com/sumaiyap/events.git"
-        AWS_REGION  = "us-east-1"
+        AWS_DEFAULT_REGION = 'us-east-1'
         ACCOUNT_ID = "905418023088"
 
     }
