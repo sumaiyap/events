@@ -92,6 +92,7 @@ resource "aws_instance" "ubuntu_with_docker" {
               sudo apt update -y
               sudo apt install jenkins -y
               sudo apt-get install -y awscli
+              sudo usermod -aG docker jenkins
               EOF
 
   tags = {
