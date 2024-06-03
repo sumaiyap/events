@@ -7,6 +7,7 @@ def lambda_handler(event, context):
     ssm_client = boto3.client('ssm')
     
     commands = [
+        'rm -rf /home/ubuntu/events'
         'git clone https://github.com/sumaiyap/events.git /home/ubuntu/events',
         'cd /home/ubuntu/events/application/ && docker-compose down --volumes --rmi all',
         'cd /home/ubuntu/events/application/ && docker-compose up -d'
