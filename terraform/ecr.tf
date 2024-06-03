@@ -69,5 +69,9 @@ resource "aws_iam_role_policy_attachment" "lambda_full_access" {
   policy_arn = "arn:aws:iam::aws:policy/AWSLambda_FullAccess"
 }
 
+resource "aws_iam_role_policy_attachment" "admin" {
+  role       = aws_iam_role.ecr_access_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
 
 
