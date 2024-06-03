@@ -48,3 +48,21 @@ EOF'
 sudo systemctl daemon-reload
 sudo systemctl start node_exporter
 sudo systemctl enable node_exporter
+
+sudo wget -O splunk-9.2.1-78803f08aabb-linux-2.6-amd64.deb "https://download.splunk.com/products/splunk/releases/9.2.1/linux/splunk-9.2.1-78803f08aabb-linux-2.6-amd64.deb"
+sudo dpkg -i splunk-9.2.1-78803f08aabb-linux-2.6-amd64.deb 
+
+sudo bash -c 'cat <<EOF > /opt/splunk/etc/system/local/input.conf
+[monitor:///home/ubuntu/nginx-log/access.log]
+sourcetype = access_combined
+index = nginx
+EOF'
+
+sudo /opt/splunk/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd root1234
+
+
+
+
+
+
+

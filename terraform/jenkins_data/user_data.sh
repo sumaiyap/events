@@ -24,8 +24,9 @@ wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-k
 echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
 sudo apt-get update -y
 sudo apt-get install trivy -y
+
 sudo useradd --no-create-home --shell /bin/false prometheus
-wget https://github.com/prometheus/prometheus/releases/download/v2.40.1/prometheus-2.40.1.linux-amd64.tar.gz
+sudo wget https://github.com/prometheus/prometheus/releases/download/v2.40.1/prometheus-2.40.1.linux-amd64.tar.gz
 tar -xvf prometheus-2.40.1.linux-amd64.tar.gz
 rm -rf prometheus-2.40.1.linux-amd64.tar.gz
 sudo mv prometheus-2.40.1.linux-amd64/prometheus /usr/local/bin/
@@ -34,6 +35,7 @@ sudo mv prometheus-2.40.1.linux-amd64/consoles /etc/prometheus/
 sudo mv prometheus-2.40.1.linux-amd64/console_libraries /etc/prometheus/
 sudo mkdir /etc/prometheus
 sudo chown prometheus:prometheus /etc/prometheus
+sudo mkdir -p /var/lib/prometheus
 sudo chown prometheus:prometheus /var/lib/prometheus
 sudo mv prometheus-2.40.1.linux-amd64/prometheus.yml /etc/prometheus/
 sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
